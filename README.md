@@ -100,3 +100,11 @@ We generate speech samples based on [Harvard Sentences](http://www.cs.columbia.e
   
   Jan. 2018,
   Kyubyong Park & [Tommy Mulc](tmulc18@gmail.com)
+ 
+ 
+## 以上是原来作者的使用说明
+  
+  
+## 增加了预训练模型在 models_pre 目录下 ，如果使用可以  解压开，然后在
+## 增加了数据放入的目录： data  训练数据放入此目录 
+## samples 语音合成后悔自动生成此目录，生成的文件默认是 .wav

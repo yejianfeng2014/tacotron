@@ -29,7 +29,8 @@ def synthesize():
 
     saver = tf.train.Saver()
     with tf.Session() as sess:
-        saver.restore(sess, tf.train.latest_checkpoint(hp.logdir)); print("Restored!")
+        saver.restore(sess, tf.train.latest_checkpoint(hp.logdir))
+        print("Restored!")
 
         # Feed Forward
         ## mel
