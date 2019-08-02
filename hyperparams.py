@@ -47,6 +47,6 @@ class Hyperparams:
 
     # training scheme
     lr = 0.001  # Initial learning rate.
-    logdir = "logdir/01"   # 需要修改的文件地址 这个放置的是模型的存放地址
+    logdir = "models_pre/LJ"   # 需要修改的文件地址 这个放置的是模型的存放地址
     sampledir = 'samples'  # 合成语音的文件地址
     batch_size = 32        # 如果是训练，样本的大小
