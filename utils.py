@@ -81,6 +81,8 @@ def get_spectrograms(fpath):
     return mel, mag
 
 
+# 把数组转成语音
+
 def spectrogram2wav(mag):
     '''# Generate wave file from spectrogram'''
     # transpose

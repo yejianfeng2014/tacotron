@@ -45,7 +45,10 @@ def synthesize():
             audio = spectrogram2wav(mag)
             write(os.path.join(hp.sampledir, '{}.wav'.format(i+1)), hp.sr, audio)
 
-if __name__ == '__main__':
-    synthesize()
-    print("Done")
+
+synthesize()
+#
+# if __name__ == '__main__':
+#     synthesize()
+#     print("Done")
 
