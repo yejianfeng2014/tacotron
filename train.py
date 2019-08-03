@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#/usr/bin/python2
+# /usr/bin/python2
 '''
 By kyubyong park. kbpark.linguist@gmail.com. 
 https://www.github.com/kyubyong/tacotron
@@ -16,46 +16,47 @@ from modules import *
 from networks import encoder, decoder1, decoder2
 from utils import *
 
+
 class Graph:
     def __init__(self, mode="train"):
         # Load vocabulary
         self.char2idx, self.idx2char = load_vocab()
 
         # Set phase
-        is_training=True if mode=="train" else False
+        is_training = True if mode == "train" else False
 
         # Graph
         # Data Feeding
         # x: Text. (N, Tx)
         # y: Reduced melspectrogram. (N, Ty//r, n_mels*r)
         # z: Magnitude. (N, Ty, n_fft//2+1)
-        if mode=="train":
+        if mode == "train":
             self.x, self.y, self.z, self.fnames, self.num_batch = get_batch()
-        elif mode=="eval":
+        elif mode == "eval":
             self.x = tf.placeholder(tf.int32, shape=(None, None))
-            self.y = tf.placeholder(tf.float32, shape=(None, None, hp.n_mels*hp.r))
-            self.z = tf.placeholder(tf.float32, shape=(None, None, 1+hp.n_fft//2))
+            self.y = tf.placeholder(tf.float32, shape=(None, None, hp.n_mels * hp.r))
+            self.z = tf.placeholder(tf.float32, shape=(None, None, 1 + hp.n_fft // 2))
             self.fnames = tf.placeholder(tf.string, shape=(None,))
-        else: # Synthesize
+        else:  # Synthesize 合成
             self.x = tf.placeholder(tf.int32, shape=(None, None))
             self.y = tf.placeholder(tf.float32, shape=(None, None, hp.n_mels * hp.r))
 
         # Get encoder/decoder inputs
-        self.encoder_inputs = embed(self.x, len(hp.vocab), hp.embed_size) # (N, T_x, E)
-        self.decoder_inputs = tf.concat((tf.zeros_like(self.y[:, :1, :]), self.y[:, :-1, :]), 1) # (N, Ty/r, n_mels*r)
-        self.decoder_inputs = self.decoder_inputs[:, :, -hp.n_mels:] # feed last frames only (N, Ty/r, n_mels)
+        self.encoder_inputs = embed(self.x, len(hp.vocab), hp.embed_size)  # (N, T_x, E)
+        self.decoder_inputs = tf.concat((tf.zeros_like(self.y[:, :1, :]), self.y[:, :-1, :]), 1)  # (N, Ty/r, n_mels*r)
+        self.decoder_inputs = self.decoder_inputs[:, :, -hp.n_mels:]  # feed last frames only (N, Ty/r, n_mels)
 
         # Networks
         with tf.variable_scope("net"):
             # Encoder
-            self.memory = encoder(self.encoder_inputs, is_training=is_training) # (N, T_x, E)
+            self.memory = encoder(self.encoder_inputs, is_training=is_training)  # (N, T_x, E)
 
             # Decoder1
             self.y_hat, self.alignments = decoder1(self.decoder_inputs,
-                                                     self.memory,
-                                                     is_training=is_training) # (N, T_y//r, n_mels*r)
+                                                   self.memory,
+                                                   is_training=is_training)  # (N, T_y//r, n_mels*r)
             # Decoder2 or postprocessing
-            self.z_hat = decoder2(self.y_hat, is_training=is_training) # (N, T_y//r, (1+n_fft//2)*r)
+            self.z_hat = decoder2(self.y_hat, is_training=is_training)  # (N, T_y//r, (1+n_fft//2)*r)
 
         # monitor
         self.audio = tf.py_func(spectrogram2wav, [self.z_hat[0]], tf.float32)
@@ -91,10 +92,12 @@ class Graph:
 
             tf.summary.audio("{}/sample".format(mode), tf.expand_dims(self.audio, 0), hp.sr)
             self.merged = tf.summary.merge_all()
-         
+
+
 if __name__ == '__main__':
-    g = Graph(); print("Training Graph loaded")
-    
+    g = Graph()
+    print("Training Graph loaded")
+
     # with g.graph.as_default():
     sv = tf.train.Supervisor(logdir=hp.logdir, save_summaries_secs=60, save_model_secs=0)
     with sv.managed_session() as sess:
@@ -104,9 +107,10 @@ if __name__ == '__main__':
 
                 # Write checkpoint files
                 if gs % 1000 == 0:
-                    sv.saver.save(sess, hp.logdir + '/model_gs_{}k'.format(gs//1000))
+                    sv.saver.save(sess, hp.logdir + '/model_gs_{}k'.format(gs // 1000))
 
                     # plot the first alignment for logging
+                    # 绘制对齐后的图形
                     al = sess.run(g.alignments)
                     plot_alignment(al[0], gs)
 

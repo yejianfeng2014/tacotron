@@ -24,8 +24,8 @@ class Hyperparams:
 
     # signal processing
     # 信号处理时候的参数
-    sr = 22050  # Sample rate.
-    n_fft = 2048  # fft points (samples)
+    sr = 22050  # Sample rate.  频率
+    n_fft = 2048  # fft points (samples) 采样个数
     frame_shift = 0.0125  # seconds
     frame_length = 0.05  # seconds
     hop_length = int(sr * frame_shift)  # samples.
@@ -33,16 +33,16 @@ class Hyperparams:
     n_mels = 80  # Number of Mel banks to generate
     power = 1.2  # Exponent for amplifying the predicted magnitude
     n_iter = 50  # Number of inversion iterations
-    preemphasis = .97  # or None
-    max_db = 100
-    ref_db = 20
+    preemphasis = .97  # or None  预加重系数
+    max_db = 100  # 声音最大分贝数
+    ref_db = 20   # 相对分贝数
 
     # model
     embed_size = 256  # alias = E
     encoder_num_banks = 16
     decoder_num_banks = 8
     num_highwaynet_blocks = 4
-    r = 5  # Reduction factor. Paper => 2, 3, 5
+    r = 5  # Reduction factor. Paper => 2, 3, 5  减少因子
     dropout_rate = .5    #
 
     # training scheme
