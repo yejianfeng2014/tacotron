@@ -29,7 +29,7 @@ def eval():
 
     fpaths_ = fpaths[0]
 
-    tempPath = "D:\\python_workspace\\nytacotron\\data\\LJSpeech-1.1\\wav\\LJ001-0001.wav"
+    tempPath = "data/LJSpeech-1.1/wav/LJ001-0001.wav"
 
     fname, mel, mag = load_spectrograms(tempPath)
 
