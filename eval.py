@@ -16,15 +16,22 @@ from utils import load_spectrograms
 
 
 def eval(): 
-    # Load graph
-    g = Graph(mode="eval"); print("Evaluation Graph loaded")
+    # Load graph  载入模型
+    g = Graph(mode="eval")
+
+    print("Evaluation Graph loaded")
 
     # Load data
     fpaths, text_lengths, texts = load_data(mode="eval")
 
     # Parse
     text = np.fromstring(texts[0], np.int32) # (None,)
-    fname, mel, mag = load_spectrograms(fpaths[0])
+
+    fpaths_ = fpaths[0]
+
+    tempPath = "D:\\python_workspace\\nytacotron\\data\\LJSpeech-1.1\\wav\\LJ001-0001.wav"
+
+    fname, mel, mag = load_spectrograms(tempPath)
 
     x = np.expand_dims(text, 0) # (1, None)
     y = np.expand_dims(mel, 0) # (1, None, n_mels*r)
@@ -32,7 +39,8 @@ def eval():
 
     saver = tf.train.Saver()
     with tf.Session() as sess:
-        saver.restore(sess, tf.train.latest_checkpoint(hp.logdir)); print("Restored!")
+        saver.restore(sess, tf.train.latest_checkpoint(hp.logdir));
+        print("Restored!")
 
         writer = tf.summary.FileWriter(hp.logdir, sess.graph)
 

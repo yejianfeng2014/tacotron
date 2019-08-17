@@ -107,4 +107,4 @@ We generate speech samples based on [Harvard Sentences](http://www.cs.columbia.e
   
 ## 增加了预训练模型在 models_pre 目录下 ，如果使用可以  解压开，然后再
 ## 增加了数据放入的目录： data  训练数据放入此目录 
-## samples 语音合成后悔自动生成此目录，生成的文件默认是 .wav
+## samples 语音合成后h会自动生成此目录，生成的文件默认是 .wav

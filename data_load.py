@@ -21,6 +21,8 @@ def load_vocab():
     idx2char = {idx: char for idx, char in enumerate(hp.vocab)}
     return char2idx, idx2char
 
+# 文本正则化处理
+
 def text_normalize(text):
     text = ''.join(char for char in unicodedata.normalize('NFD', text)
                            if unicodedata.category(char) != 'Mn') # Strip accents
@@ -30,30 +32,33 @@ def text_normalize(text):
     text = re.sub("[ ]+", " ", text)
     return text
 
+# 加载数据
+
 def load_data(mode="train"):
     # Load vocabulary
     char2idx, idx2char = load_vocab()
 
     if mode in ("train", "eval"):
-        # Parse
+        # Parse  文件路径，句子长度，文本
         fpaths, text_lengths, texts = [], [], []
         transcript = os.path.join(hp.data, 'metadata.csv')
+        # 获取所有的行数
         lines = codecs.open(transcript, 'r', 'utf-8').readlines()
         total_hours = 0
         if mode=="train":
-            lines = lines[1:]
+            lines = lines[1:] # 获取除了第一行的所有数据
         else: # We attack only one sample!
             lines = lines[:1]
 
         for line in lines:
-            fname, _, text = line.strip().split("|")
+            fname, _, text = line.strip().split("|") # 按照 | 分割
 
             fpath = os.path.join(hp.data, "wavs", fname + ".wav")
-            fpaths.append(fpath)
+            fpaths.append(fpath) # 所有文件的路径
 
             text = text_normalize(text) + "E"  # E: EOS
-            text = [char2idx[char] for char in text]
-            text_lengths.append(len(text))
+            text = [char2idx[char] for char in text]  # 把字母全部转数字
+            text_lengths.append(len(text)) # 添加句子长度
             texts.append(np.array(text, np.int32).tostring())
 
         return fpaths, text_lengths, texts

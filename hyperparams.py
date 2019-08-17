@@ -17,7 +17,7 @@ class Hyperparams:
     vocab = "PE abcdefghijklmnopqrstuvwxyz'.?"  # P: Padding E: End of Sentence
 
     # data
-    data = "/data/LJSpeech-1.1"
+    data = "data/LJSpeech-1.1"
     # data = "/data/private/voice/nick"
     test_data = 'harvard_sentences.txt'
     max_duration = 10.0

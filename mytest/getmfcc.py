@@ -29,3 +29,12 @@ fs3, audio3 = wav.read("../samples/3.wav")
 feature_mfcc3 = mfcc(audio3, samplerate=fs3)
 print(feature_mfcc3)
 print(feature_mfcc3.shape)
+
+
+fs4, audio4 = wav.read("../data/yuyin/test1.flac")
+
+
+feature_mfcc4 = mfcc(audio4, samplerate=fs4)
+print(fs4)
+print(feature_mfcc4)
+print(feature_mfcc4.shape)
